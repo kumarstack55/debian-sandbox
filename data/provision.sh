@@ -88,11 +88,22 @@ shelcheck_installed() {
   touch_flag_file
 }
 
+ansible_installed() {
+  # shellcheck disable=SC2119
+  test_if_flag_file_exists && return 0
+
+  sudo apt-get install ansible -y
+
+  # shellcheck disable=SC2119
+  touch_flag_file
+}
+
 main() {
   apt_get_update_executed || die
   dotfiles_installed || die
   poetry_installed || die
   shelcheck_installed || die
+  ansible_installed || die
 }
 
 if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
