@@ -111,6 +111,18 @@ ssh_public_keys_installed() {
   touch_flag_file
 }
 
+docker_installed() {
+  # shellcheck disable=SC2119
+  test_if_flag_file_exists && return 0
+
+  curl -fsSL https://get.docker.com -o get-docker.sh
+  #DRY_RUN=1 sudo sh ./get-docker.sh
+  sudo sh ./get-docker.sh
+
+  # shellcheck disable=SC2119
+  touch_flag_file
+}
+
 main() {
   apt_get_update_executed || die
   dotfiles_installed || die
@@ -118,6 +130,7 @@ main() {
   shelcheck_installed || die
   ansible_installed || die
   ssh_public_keys_installed || die
+  docker_installed || die
 }
 
 if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
