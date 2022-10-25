@@ -119,6 +119,8 @@ docker_installed() {
   #DRY_RUN=1 sudo sh ./get-docker.sh
   sudo sh ./get-docker.sh
 
+  sudo usermod -aG docker vagrant
+
   # shellcheck disable=SC2119
   touch_flag_file
 }
